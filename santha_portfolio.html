@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Santha Krishnan — QA Engineer & SDET</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --surface2: #1a1a26;
+    --border: #2a2a3d;
+    --accent: #7b61ff;
+    --accent2: #00d4aa;
+    --accent3: #ff6b6b;
+    --text: #e8e8f0;
+    --muted: #7070a0;
+    --highlight: #b8b0ff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ─── NOISE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 4rem;
+    backdrop-filter: blur(20px);
+    background: rgba(10,10,15,0.7);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--highlight);
+    letter-spacing: -0.02em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent2); }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(123,97,255,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(123,97,255,0.06) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(123,97,255,0.15) 0%, transparent 70%);
+    top: -200px; right: -200px;
+    pointer-events: none;
+  }
+
+  .hero-glow2 {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,212,170,0.1) 0%, transparent 70%);
+    bottom: -100px; left: -100px;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    max-width: 900px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent2);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: rgba(0,212,170,0.08);
+    border: 1px solid rgba(0,212,170,0.2);
+    padding: 0.35rem 0.9rem;
+    border-radius: 2rem;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent2);
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.2rem;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  h1 .line2 {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(184,176,255,0.5);
+  }
+
+  .hero-role {
+    font-family: 'DM Mono', monospace;
+    font-size: 1rem;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    margin-bottom: 1.8rem;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-summary {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 600px;
+    line-height: 1.75;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .hero-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.8rem;
+    border-radius: 0.4rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+  }
+
+  .btn-primary:hover { background: #6b51ef; transform: translateY(-2px); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .btn-outline:hover { border-color: var(--accent2); color: var(--accent2); transform: translateY(-2px); }
+
+  /* ─── SECTIONS ─── */
+  section {
+    padding: 6rem 4rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 0.5rem;
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    letter-spacing: -0.03em;
+    margin-bottom: 3rem;
+    color: var(--text);
+  }
+
+  /* ─── SKILLS ─── */
+  #skills { background: transparent; }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .skill-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skill-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .skill-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .skill-card:hover::before { transform: scaleX(1); }
+
+  .skill-category {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+
+  .skill-items {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ─── EXPERIENCE ─── */
+  .experience-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .experience-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 40% at 90% 10%, rgba(123,97,255,0.06), transparent);
+    pointer-events: none;
+  }
+
+  .exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .exp-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .exp-company {
+    color: var(--accent2);
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .exp-period {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 0.35rem 0.9rem;
+    border-radius: 2rem;
+    white-space: nowrap;
+  }
+
+  .award-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(255,215,0,0.08);
+    border: 1px solid rgba(255,215,0,0.25);
+    color: #ffd700;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .exp-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .exp-list li {
+    padding-left: 1.4rem;
+    position: relative;
+    color: var(--muted);
+    font-size: 0.93rem;
+    line-height: 1.65;
+  }
+
+  .exp-list li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* ─── PROJECTS ─── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 2rem;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: linear-gradient(180deg, var(--accent), var(--accent2));
+    border-radius: 4px 0 0 4px;
+  }
+
+  .project-card:hover { border-color: rgba(123,97,255,0.4); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+
+  .project-icon {
+    width: 44px; height: 44px;
+    background: rgba(123,97,255,0.1);
+    border: 1px solid rgba(123,97,255,0.2);
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  .project-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    color: var(--text);
+  }
+
+  .project-desc {
+    color: var(--muted);
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1.2rem;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 0.3rem;
+    background: rgba(0,212,170,0.06);
+    border: 1px solid rgba(0,212,170,0.15);
+    color: var(--accent2);
+    letter-spacing: 0.04em;
+  }
+
+  /* ─── EDUCATION & CERTS ─── */
+  .edu-certs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    .edu-certs-grid { grid-template-columns: 1fr; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr; }
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.5rem; }
+    #hero { padding: 7rem 1.5rem 3rem; }
+    h1 { font-size: 2.8rem; }
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 1.8rem;
+  }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--highlight);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .edu-item, .cert-item {
+    margin-bottom: 1.2rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .edu-item:last-child, .cert-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  .item-name {
+    font-size: 0.93rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.2rem;
+  }
+
+  .item-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  /* ─── CONTACT ─── */
+  #contact {
+    text-align: center;
+    padding-bottom: 8rem;
+  }
+
+  .contact-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 50% 60% at 50% 100%, rgba(123,97,255,0.1), transparent);
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 0 4rem;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">SK</span>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero" style="max-width:100%;padding-top:8rem;">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-content" style="margin:0 auto;max-width:1100px;padding:0 4rem;">
+    <div class="hero-tag">Available for opportunities</div>
+    <h1>Santha<br><span class="line2">Krishnan</span></h1>
+    <p class="hero-role">QA Engineer &nbsp;/&nbsp; SDET &nbsp;/&nbsp; AI Automation</p>
+    <p class="hero-summary">
+      QA Automation Engineer with 2+ years building enterprise test frameworks at Oracle.
+      Specialising in Playwright, API testing, AI-driven QA, and CI/CD pipeline integration.
+      Oracle-certified in Generative AI.
+    </p>
+    <div class="hero-links">
+      <a href="mailto:santha.emp246@gmail.com" class="btn btn-primary">✉ Get in Touch</a>
+      <a href="https://linkedin.com/in/santha-krishnan-431399258" target="_blank" class="btn btn-outline">↗ LinkedIn</a>
+      <a href="tel:7305692618" class="btn btn-outline">📞 Call</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="section-label reveal">Technical Arsenal</p>
+  <h2 class="reveal">Skills &amp; Expertise</h2>
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <div class="skill-category">Test Automation</div>
+      <div class="skill-items">Playwright (TypeScript) · API Testing · UI Testing · Regression · Functional Testing</div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-category">CI/CD &amp; DevOps</div>
+      <div class="skill-items">Jenkins · Git · GitLab — automated test suites integrated with CI/CD pipelines</div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-category">Data &amp; SQL</div>
+      <div class="skill-items">Advanced SQL — multi-dataset validation, data quality assurance, anomaly &amp; discrepancy detection</div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-category">Languages</div>
+      <div class="skill-items">TypeScript · JavaScript · Python · Java</div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-category">AI &amp; Analytics</div>
+      <div class="skill-items">LangChain · Langflow · n8n · LLM · RAG · AI-driven analytics · Oracle AI Agent Studio</div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-category">Tools &amp; Methodologies</div>
+      <div class="skill-items">Jira · GitLab · Bugasura · Confluence · Agile/Scrum · UAT · RCA · Defect Lifecycle</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <p class="section-label reveal">Work History</p>
+  <h2 class="reveal">Professional Experience</h2>
+  <div class="experience-card reveal">
+    <div class="exp-header">
+      <div>
+        <div class="exp-title">QA Engineer <span style="color:var(--muted);font-weight:400;font-size:0.9rem">(SDET)</span></div>
+        <div class="exp-company">Oracle · Bangalore, India</div>
+      </div>
+      <div class="exp-period">May 2024 – Present</div>
+    </div>
+    <div class="award-badge">⭐ Spot YES Award — Outstanding Contribution to QA Engineering</div>
+    <ul class="exp-list">
+      <li>Independently create comprehensive test plans, use cases, and test scenarios ensuring full traceability to business and functional specifications.</li>
+      <li>Implement, maintain, and enhance test automation frameworks using Playwright (TypeScript) for scalable SaaS application test coverage.</li>
+      <li>Design and maintain automated test suites integrated with CI/CD pipelines (Jenkins/Git), enabling reliable, fast feedback on build quality.</li>
+      <li>Apply advanced SQL to validate data across multiple datasets, identifying discrepancies and patterns for rigorous data quality assurance.</li>
+      <li>Perform backend validation through API response analysis and database verification; manage full defect lifecycle via bug tracking systems.</li>
+      <li>Support UAT activities by guiding stakeholders and participating in Agile ceremonies across distributed teams.</li>
+      <li>Leverage AI-driven analytics tools (LangChain, LLM) to proactively identify test patterns and enhance quality engineering practices.</li>
+      <li>Developed Cline workflows to automate processes, streamline code reviews, generate test cases, and create Page Object Models.</li>
+      <li>Built an AI agent in Langflow to automate daily FR analysis.</li>
+      <li>Conduct root cause analysis on defects and provide second-tier triage support for customer-facing issues.</li>
+    </ul>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label reveal">Side Quests</p>
+  <h2 class="reveal">Projects</h2>
+  <div class="projects-grid">
+    <div class="project-card reveal">
+      <div class="project-icon">🤖</div>
+      <div class="project-name">Sec-Info-Bot</div>
+      <p class="project-desc">
+        An intelligent AI security assistant chatbot built with LangChain and Retrieval-Augmented Generation (RAG).
+        Designed secure document storage architecture and implemented a document ingestion pipeline for contextual LLM-based querying.
+        Applied QA techniques to verify AI output accuracy and reliability.
+      </p>
+      <div class="project-tags">
+        <span class="tag">LangChain</span>
+        <span class="tag">RAG</span>
+        <span class="tag">LLM</span>
+        <span class="tag">Python</span>
+        <span class="tag">Security</span>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-icon">📚</div>
+      <div class="project-name">Confluence Retriever Bot</div>
+      <p class="project-desc">
+        An AI-based information retrieval system built using Langflow to automate extraction of Confluence content,
+        enabling LLM-based knowledge querying with validated data accuracy.
+        Structured enterprise documentation for AI responses with full requirements traceability.
+      </p>
+      <div class="project-tags">
+        <span class="tag">Langflow</span>
+        <span class="tag">LLM</span>
+        <span class="tag">Confluence API</span>
+        <span class="tag">Enterprise AI</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EDUCATION & CERTS -->
+<section id="education">
+  <p class="section-label reveal">Background</p>
+  <h2 class="reveal">Education &amp; Certifications</h2>
+  <div class="edu-certs-grid">
+    <div class="card reveal">
+      <div class="card-title">🎓 Education</div>
+      <div class="edu-item">
+        <div class="item-name">Bachelor of Commerce</div>
+        <div class="item-sub">Dhanraj Baid Jain College, Chennai</div>
+        <div class="item-sub" style="margin-top:0.3rem;">2020 – 2023</div>
+      </div>
+    </div>
+    <div class="card reveal">
+      <div class="card-title">🏅 Certifications</div>
+      <div class="cert-item">
+        <div class="item-name">Oracle Fusion AI Agent Studio Foundations Associate</div>
+        <div class="item-sub">Oracle · Active</div>
+      </div>
+      <div class="cert-item">
+        <div class="item-name">OCI 2025 Certified Generative AI Professional</div>
+        <div class="item-sub">Oracle Cloud Infrastructure · 2025</div>
+      </div>
+      <div class="cert-item">
+        <div class="item-name">Azure Data Fundamentals</div>
+        <div class="item-sub">Microsoft · In Progress</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact" style="max-width:1100px;">
+  <div class="contact-card reveal">
+    <p class="section-label" style="text-align:center;">Let's Connect</p>
+    <h2 style="margin-bottom:1rem;">Open to New Roles</h2>
+    <p style="color:var(--muted);font-size:1rem;max-width:480px;margin:0 auto;position:relative;z-index:1;">
+      Looking for QA Engineer, SDET, or AI-driven automation roles.<br>
+      Reach out — I'd love to chat.
+    </p>
+    <div class="contact-links">
+      <a href="mailto:santha.emp246@gmail.com" class="btn btn-primary">✉ santha.emp246@gmail.com</a>
+      <a href="https://linkedin.com/in/santha-krishnan-431399258" target="_blank" class="btn btn-outline">↗ LinkedIn</a>
+      <a href="tel:7305692618" class="btn btn-outline">📞 +91 73056 92618</a>
+    </div>
+    <p style="margin-top:1.5rem;font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--muted);position:relative;z-index:1;">📍 Bangalore, India</p>
+  </div>
+</section>
+
+<footer>
+  Built with purpose &nbsp;·&nbsp; Santha Krishnan &nbsp;·&nbsp; QA Engineer &amp; SDET
+</footer>
+
+<script>
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  reveals.forEach(el => observer.observe(el));
+
+  // Stagger skill cards
+  document.querySelectorAll('.skills-grid .skill-card').forEach((card, i) => {
+    card.style.transitionDelay = `${i * 0.07}s`;
+  });
+</script>
+
+</body>
+</html>
